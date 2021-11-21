@@ -35,12 +35,15 @@ app = Flask(__name__)
 def welcome():
     """List all available api routes."""
     return (
-        f"Welcome to the Climate App!<br/>"
+        f"Welcome to the Climate App!<br/><br/>"
         f"Available Routes:<br/>"
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/start"
+        f"/api/v1.0/start<br/>"
+        f"(note: start = date in the form of mmddyyyy)<br/>"
+        f"/api/v1.0/start/end<br/>"
+        f"(note: start and end = dates in the form of mmddyyyy)"
     )
 
 @app.route("/api/v1.0/precipitation")
@@ -93,7 +96,7 @@ def tobs():
 
     return jsonify(annualMostActive)
 
-@app.route("/api/v1.0/start")
+@app.route("/api/v1.0/<start>")
 def start_date(start=""):
     # Create our session (link) from Python to the DB
     session = Session(engine)
@@ -111,7 +114,7 @@ def start_date(start=""):
 
     return jsonify(start_results)
 
-@app.route("/api/v1.0/start/end")
+@app.route("/api/v1.0/<start>/<end>")
 def start_and_end(start="", end=""):
     # Create our session (link) from Python to the DB
     session = Session(engine)
